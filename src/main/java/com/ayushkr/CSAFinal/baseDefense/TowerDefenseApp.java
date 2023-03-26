@@ -13,16 +13,17 @@ import com.almasb.fxgl.quest.Quest;
 import com.almasb.fxgl.quest.QuestService;
 import com.almasb.fxgl.quest.QuestState;
 import com.ayushkr.CSAFinal.baseDefense.components.EnemyComponent;
-import com.almasb.fxglgames.td.data.*;
-import com.almasb.fxglgames.td.ui.*;
+import com.ayushkr.CSAFinal.baseDefense.data.*;
 import com.ayushkr.CSAFinal.baseDefense.ui.*;
 import com.ayushkr.CSAFinal.baseDefense.ui.scene.TowerDefenseGameMenu;
 import com.ayushkr.CSAFinal.baseDefense.ui.scene.TowerDefenseMainMenu;
-import com.ayushkr.CSAFinal.baseDefense.data.*;
 import javafx.beans.binding.Bindings;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
+import com.almasb.fxgl.input.UserAction;
+import javafx.scene.input.KeyCode;
+import com.almasb.fxgl.input.virtual.VirtualButton;
 import javafx.util.Duration;
 
 import java.util.List;
@@ -51,6 +52,65 @@ public class TowerDefenseApp extends GameApplication {
 
     private TowerSelectionBox towerSelectionBox;
     private WaveIcon waveIcon;
+    private Entity player;
+
+    @Override
+    protected void initInput() {
+        getInput().addAction(new UserAction("Left") {
+            @Override
+            protected void onAction() {
+                System.out.println("A");
+            }
+
+            @Override
+            protected void onActionEnd() {
+
+            }
+        }, KeyCode.A);
+
+        getInput().addAction(new UserAction("Right") {
+            @Override
+            protected void onAction() {
+                System.out.println("D");
+            }
+
+            @Override
+            protected void onActionEnd() {
+
+            }
+        }, KeyCode.D);
+
+        getInput().addAction(new UserAction("Up") {
+            @Override
+            protected void onAction() {
+                System.out.println("W");
+            }
+
+            @Override
+            protected void onActionEnd() {
+
+            }
+        }, KeyCode.W);
+
+        getInput().addAction(new UserAction("Down") {
+            @Override
+            protected void onAction() {
+                System.out.println("S");
+            }
+
+            @Override
+            protected void onActionEnd() {
+
+            }
+        }, KeyCode.S);
+
+        getInput().addAction(new UserAction("Use") {
+            @Override
+            protected void onActionBegin() {
+                System.out.println("E");
+            }
+        }, KeyCode.E);
+    }
 
     @Override
     protected void initSettings(GameSettings settings) {

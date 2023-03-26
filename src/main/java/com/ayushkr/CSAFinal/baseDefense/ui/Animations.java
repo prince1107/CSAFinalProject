@@ -21,8 +21,8 @@ public class Animations {
                 .autoReverse(true)
                 .translate(icon)
                 .from(new Point2D(10, 250))
-                .to(new Point2D(100, 250))
-                .buildAndPlay();
+                .to(new Point2D(100, 250));
+//                .buildAndPlay();
     }
 
     public static void playVisualEffectSlowAnimation(Entity visualEffect) {
@@ -34,7 +34,7 @@ public class Animations {
                 .interpolator(Interpolators.EXPONENTIAL.EASE_OUT())
                 .translate(visualEffect)
                 .from(visualEffect.getPosition().add(-10, 0))
-                .to(visualEffect.getPosition().add(-10, 20))
-                .buildAndPlay();
+                .to(visualEffect.getPosition().add(-10, 20));
+//                .buildAndPlay();
     }
 }
