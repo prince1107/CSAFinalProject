@@ -18,7 +18,7 @@
 
         <fxgl.version>17.1</fxgl.version>
         <jfx.maven.plugin.version>0.0.6</jfx.maven.plugin.version>
-        <mainClassName>com.almasb.fxglgames.td.TowerDefenseApp</mainClassName>
+        <mainClassName>com.ayushkr.CSAFinal.baseDefense.TowerDefenseApp</mainClassName>
     </properties>
 
     <repositories>
