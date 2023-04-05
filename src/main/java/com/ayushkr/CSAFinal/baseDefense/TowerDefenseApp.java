@@ -1,6 +1,5 @@
 package com.ayushkr.CSAFinal.baseDefense;
 
-import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.ApplicationMode;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
@@ -9,6 +8,10 @@ import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.animation.Interpolators;
+import com.almasb.fxgl.entity.components.CollidableComponent;
+import com.almasb.fxgl.input.view.KeyView;
+import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.quest.Quest;
 import com.almasb.fxgl.quest.QuestService;
 import com.almasb.fxgl.quest.QuestState;
@@ -18,6 +21,7 @@ import com.ayushkr.CSAFinal.baseDefense.ui.*;
 import com.ayushkr.CSAFinal.baseDefense.ui.scene.TowerDefenseGameMenu;
 import com.ayushkr.CSAFinal.baseDefense.ui.scene.TowerDefenseMainMenu;
 import javafx.beans.binding.Bindings;
+import javafx.geometry.Point2D;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
@@ -59,48 +63,28 @@ public class TowerDefenseApp extends GameApplication {
         getInput().addAction(new UserAction("Left") {
             @Override
             protected void onAction() {
-                System.out.println("A");
-            }
-
-            @Override
-            protected void onActionEnd() {
-
+                player.getComponent(PlayerComponent.class).left();
             }
         }, KeyCode.A);
 
         getInput().addAction(new UserAction("Right") {
             @Override
             protected void onAction() {
-                System.out.println("D");
-            }
-
-            @Override
-            protected void onActionEnd() {
-
+                player.getComponent(PlayerComponent.class).right();
             }
         }, KeyCode.D);
 
         getInput().addAction(new UserAction("Up") {
             @Override
             protected void onAction() {
-                System.out.println("W");
-            }
-
-            @Override
-            protected void onActionEnd() {
-
+                player.getComponent(PlayerComponent.class).up();
             }
         }, KeyCode.W);
 
         getInput().addAction(new UserAction("Down") {
             @Override
             protected void onAction() {
-                System.out.println("S");
-            }
-
-            @Override
-            protected void onActionEnd() {
-
+                player.getComponent(PlayerComponent.class).down();
             }
         }, KeyCode.S);
 
@@ -111,6 +95,7 @@ public class TowerDefenseApp extends GameApplication {
             }
         }, KeyCode.E);
     }
+
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -163,7 +148,13 @@ public class TowerDefenseApp extends GameApplication {
         // construct UI objects
         towerSelectionBox = new TowerSelectionBox(towerData);
         waveIcon = new WaveIcon();
+        player = null;
 
+        // player must be spawned after call to nextLevel, otherwise player gets removed
+        // before the update tick _actually_ adds the player to game world
+        player = spawn("player", 50, 50);
+
+        set("player", player);
         loadCurrentLevel();
     }
 
@@ -208,6 +199,9 @@ public class TowerDefenseApp extends GameApplication {
     }
 
     private void loadCurrentLevel() {
+        if (player != null) {
+            player.setZIndex(Integer.MAX_VALUE);
+        }
         set(Vars.CURRENT_WAVE, 0);
 
         waveIcon.setMaxWave(currentLevel.maxWaveIndex());
@@ -383,6 +377,8 @@ public class TowerDefenseApp extends GameApplication {
     private void gameOver() {
         showMessage("Level Complete!", getGameController()::gotoMainMenu);
     }
+
+
 
     public static void main(String[] args) {
         launch(args);

@@ -8,7 +8,17 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
+import com.almasb.fxgl.entity.action.ActionComponent;
+import com.almasb.fxgl.entity.components.CollidableComponent;
+import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.entity.components.TimeComponent;
+import com.almasb.fxgl.entity.state.StateComponent;
+import com.almasb.fxgl.pathfinding.CellMoveComponent;
+import com.almasb.fxgl.physics.BoundingShape;
+import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.ayushkr.CSAFinal.baseDefense.components.BulletComponent;
 import com.ayushkr.CSAFinal.baseDefense.components.EnemyComponent;
 import com.ayushkr.CSAFinal.baseDefense.components.EnemyHealthViewComponent;
@@ -17,6 +27,7 @@ import com.ayushkr.CSAFinal.baseDefense.data.EnemyData;
 import com.ayushkr.CSAFinal.baseDefense.data.TowerData;
 import com.ayushkr.CSAFinal.baseDefense.ui.PowerDownIcon;
 import javafx.beans.binding.Bindings;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -129,6 +140,19 @@ public class TowerDefenseFactory implements EntityFactory {
                 .viewWithBBox(new VBox(-5, icon1, icon2))
                 .viewWithBBox(box)
                 .scale(0.3, 0.3)
+                .build();
+    }
+
+    @Spawns("player")
+    public Entity newPlayer(SpawnData data) {
+
+        return entityBuilder(data)
+                .type(PLAYER)
+                .bbox(new HitBox(new Point2D(5,5), BoundingShape.circle(12)))
+                .bbox(new HitBox(new Point2D(10,25), BoundingShape.box(10, 17)))
+                .with(new CollidableComponent(true))
+                .with(new IrremovableComponent())
+                .with(new PlayerComponent())
                 .build();
     }
 }
